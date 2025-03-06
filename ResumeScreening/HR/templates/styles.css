@@ -1,0 +1,171 @@
+/* Overall Body Styling */
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #ffffff; /* White background */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Header Styling */
+header {
+    background: linear-gradient(145deg, #1e3c72, #2a5298); 
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 2.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center; 
+    gap: 8px; 
+}
+
+nav ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px; 
+    padding: 4px 10px; 
+    background: #4a90e2; 
+    border-radius: 3px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    height: 30px; 
+    line-height: normal; 
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+
+nav ul li a:hover {
+    background: #2a5298; 
+    transform: translateY(-3px);
+}
+
+
+
+main {
+    padding: 40px 20px;
+}
+
+/* Job Listings */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #f9f9f9;
+    margin: 15px 0;
+    padding: 20px;
+    border-left: 6px solid #2a5298; 
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+ul li a {
+    color: #1e3c72; 
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+ul li:hover {
+    background-color: #e3f2fd;
+    transform: translateX(5px);
+}
+
+/* Job Title and Description */
+h1 {
+    color: #2a5298;
+    font-size: 2.5em;
+}
+
+p {
+    font-size: 1.2em;
+    color: #555;
+}
+
+/* Form Styling */
+form {
+    background-color: #ffffff;
+    padding: 30px;
+    margin-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form input,
+form textarea,
+form button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus {
+    outline: none;
+    border-color: #ffcc00;
+    box-shadow: 0 0 6px rgba(255, 204, 0, 0.4);
+}
+
+form button {
+    background-color: #1e8e3e; 
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    transition: transform 0.2s ease;
+}
+
+form button:hover {
+    transform: translateY(-3px); 
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    header {
+        font-size: 2em;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    ul li {
+        margin: 10px 0;
+        padding: 20px;
+    }
+
+    form {
+        padding: 20px;
+    }
+}

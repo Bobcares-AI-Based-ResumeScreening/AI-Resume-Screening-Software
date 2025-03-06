@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="{% static 'js/validation.js' %}" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-box">
+        <h2>Login</h2>
+
+        <!-- Display messages (e.g., errors or success) -->
+        {% if messages %}
+        <ul class="messages">
+          {% for message in messages %} {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- Login Form -->
+        <form id="loginForm" action="{% url 'login' %}" method="POST">
+          {% csrf_token %}
+
+          <!-- Username Field -->
+          <div class="input-group">
+            <input
+              type="text"
+              id="loginUsername"
+              name="username"
+              placeholder="Username"
+              required
+            />
+            <span id="loginUsernameError" class="error"></span>
+          </div>
+
+          <!-- Password Field -->
+          <div class="input-group">
+            <input
+              type="password"
+              id="loginPassword"
+              name="password"
+              placeholder="Password"
+              required
+            />
+            <span id="loginPasswordError" class="error"></span>
+          </div>
+
+          <!-- Role Field -->
+          <div class="input-group">
+            <select id="loginRole" name="role" required>
+              <option value="" disabled selected>Select Role</option>
+              <option value="HR">HR</option>
+              <option value="Candidate">Candidate</option>
+            </select>
+            <span id="loginRoleError" class="error"></span>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn">Login</button>
+
+          <!-- Registration Link -->
+          <div style="margin-top: 15px"></div>
+          <p style="text-align: center">
+            Don't have an account?
+            <a href="{% url 'register' %}">Register here</a>
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- JavaScript for Form Validation -->
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent default form submission
+
+          let formData = new FormData(this);
+          let csrfToken = document.querySelector(
+            "[name=csrfmiddlewaretoken]"
+          ).value;
+
+          fetch("{% url 'login' %}", {
+            method: "POST",
+            headers: { "X-CSRFToken": csrfToken },
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Clear previous error messages
+              document.getElementById("loginUsernameError").textContent = "";
+              document.getElementById("loginPasswordError").textContent = "";
+              document.getElementById("loginRoleError").textContent = "";
+
+              if (data.success) {
+                window.location.href = "home.html"; // Redirect to home or dashboard
+              } else {
+                if (data.errors.username)
+                  document.getElementById("loginUsernameError").textContent =
+                    data.errors.username;
+                if (data.errors.password)
+                  document.getElementById("loginPasswordError").textContent =
+                    data.errors.password;
+                if (data.errors.role)
+                  document.getElementById("loginRoleError").textContent =
+                    data.errors.role;
+              }
+            });
+        });
+    </script>
+  </body>
+</html>

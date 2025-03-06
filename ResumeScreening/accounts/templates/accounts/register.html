@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="{% static 'js/validation.js' %}" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-box">
+        <h2>Register</h2>
+
+        {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form id="registerForm" action="{% url 'register' %}" method="POST">
+          {% csrf_token %}
+
+          <div class="input-group">
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Username"
+              required
+            />
+            <span id="usernameError" class="error"></span>
+          </div>
+
+          <div class="input-group">
+            <input
+              type="text"
+              id="full_name"
+              name="full_name"
+              placeholder="Full Name"
+              required
+            />
+            <span id="fullNameError" class="error"></span>
+          </div>
+
+          <div class="input-group">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email Address"
+              required
+            />
+            <span id="emailError" class="error"></span>
+          </div>
+
+          <div class="input-group">
+            <input
+              type="text"
+              id="phone"
+              name="phone_number"
+              placeholder="Phone Number"
+              maxlength="10"
+            />
+            <span id="phoneError" class="error"></span>
+          </div>
+
+          <div class="input-group">
+            <input
+              type="password"
+              id="password1"
+              name="password1"
+              placeholder="Password"
+              required
+            />
+            <span id="passwordError" class="error"></span>
+          </div>
+
+          <div class="input-group">
+            <input
+              type="password"
+              id="password2"
+              name="password2"
+              placeholder="Confirm Password"
+              required
+            />
+            <span id="confirmPasswordError" class="error"></span>
+          </div>
+
+          <div class="input-group">
+            <select id="userType" name="user_type" required>
+              <option value="" disabled selected>Select User Type</option>
+              <option value="HR">HR</option>
+              <option value="Candidate">Candidate</option>
+            </select>
+            <span id="userTypeError" class="error"></span>
+          </div>
+
+          <button type="submit" class="btn">Register</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 15px">
+          Already have an account? <a href="{% url 'login' %}">Login here</a>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent default form submission
+
+          let formData = new FormData(this);
+          let csrfToken = document.querySelector(
+            "[name=csrfmiddlewaretoken]"
+          ).value;
+
+          fetch("{% url 'register' %}", {
+            method: "POST",
+            headers: { "X-CSRFToken": csrfToken },
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Clear previous error messages
+              document.getElementById("usernameError").textContent = "";
+              document.getElementById("fullNameError").textContent = "";
+              document.getElementById("emailError").textContent = "";
+              document.getElementById("phoneError").textContent = "";
+              document.getElementById("passwordError").textContent = "";
+              document.getElementById("confirmPasswordError").textContent = "";
+              document.getElementById("userTypeError").textContent = "";
+
+              if (data.success) {
+                window.location.href = "{% url 'login' %}"; // Redirect to login
+              } else {
+                if (data.errors.username)
+                  document.getElementById("usernameError").textContent =
+                    data.errors.username;
+                if (data.errors.full_name)
+                  document.getElementById("fullNameError").textContent =
+                    data.errors.full_name;
+                if (data.errors.email)
+                  document.getElementById("emailError").textContent =
+                    data.errors.email;
+                if (data.errors.phone_number)
+                  document.getElementById("phoneError").textContent =
+                    data.errors.phone_number;
+                if (data.errors.password1)
+                  document.getElementById("passwordError").textContent =
+                    data.errors.password1;
+                if (data.errors.password2)
+                  document.getElementById("confirmPasswordError").textContent =
+                    data.errors.password2;
+                if (data.errors.user_type)
+                  document.getElementById("userTypeError").textContent =
+                    data.errors.user_type;
+              }
+            });
+        });
+    </script>
+  </body>
+</html>

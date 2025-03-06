@@ -1,0 +1,30 @@
+<!-- HR/templates/HR/job_detail.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ job.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="{% url 'hr_dashboard' %}">Dashboard</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <h1>{{ job.title }}</h1>
+      <p>{{ job.description }}</p>
+      <h2>Upload Your Resume</h2>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Resume</button>
+      </form>
+    </main>
+  </body>
+</html>
