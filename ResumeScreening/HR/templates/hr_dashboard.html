@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HR Dashboard</title>
+</head>
+<body>
+    <h1>HR Dashboard</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save HR Details</button>
+    </form>
+    <a href="/">Back to Home</a>
+</body>
+</html>
